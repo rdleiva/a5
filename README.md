@@ -3,16 +3,16 @@ a5
 ## Authors: Eydis Embla Ludviksdottir, Rotman Daniel Leiva
 ## Emails:  eydisembla@my.uri.edu,     rdleiva@my.uri.edu
 
-## Design Outline.
+## Design Outline
 
-## Problems to solve:
+## Problems to solve
    1. Take language files and generate a string from the text.
    2. **Generate a string to store the name of each language file.**
    3. Count each trigram in the text and store in a frequency vector.
    4. Compare frequency vector of the unknown language file to the frequency vectors of the other language files.
    5. Determine the language the unknown file is the most similar to.
 
-## How to solve the problems:
+## How to solve the problems
    1. Create an infile function to take in language files and return a string of language text.
    2. **N/A**
    3. Create a function that takes in a string of language text, we loop through it and convert each trigram into a number with base 27 which will be the index of a vector of size 27^3.
@@ -20,7 +20,7 @@ a5
    Assign each cosine similarity value to a corresponding language.
    5. After comparison of language files to the unknown file, the value closest to 0 would be the most similar language to the unknown file.
 
-## Classes needed:
+## Classes needed
    1. Language class to represent a text and it's language
       - private instance variables for text and name of the language
           - both are `std::string`s
@@ -41,13 +41,13 @@ a5
     - comparison function which compares the similarity values??
                 - returns true if ..
 
-## Milestone 1 `main()` structure:
+## Milestone 1 `main()` structure
    - Test for generation of trigram frequencies.
    - Takes in only one string argument. Exits with an error otherwise.
    - Generate trigram frequency vector from string argument.
    - Output frequency vector values in indexed order from `___` to `zzz` (0-19,683).
 
-## Milestone 2 `main()` structure:
+## Milestone 2 `main()` structure
    - Test for known language text files language similarity to unknown file.
    - Takes multiple arguments. Exits with an error if only one argument is provided.
    - Generate trigram frequencies of all arguments given.
@@ -55,11 +55,11 @@ a5
    - n-1th argument will be assigned the most similar nth argument's language name
    - Output name of n-1th argument.
 
-## Files needed:
-  - `language.h` and `language.cpp` for language Class
-  - `main.cpp` to test the language detection
+## Files needed
+  - `language.h` and `language.cpp` for language Class.
+  - `main.cpp` to test the language detection.
 
-## Libraries needed:
+## Libraries needed
   - vector
   - string
   - iostream (and fstream)
