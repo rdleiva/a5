@@ -23,12 +23,12 @@
         - returns a vector of integers, frequency of each trigram in the string
     - `main()`
         - takes the command line as an argument, argv, and its size, argc.
-        - tests if the command line is only one argument, else throws an error.
+        - tests if the command line is only one argument, if not throws an error.
         - calls the freqVec **and passes a pointer to the string or just the string?**.
         - output each element in the vector through a for loop and place a space between each.
 
 ### Files needed
-    - `frequencies.cpp` to calculate the frequency vector
+    - `main.cpp` to calculate the frequency vector
 
 ### Libraries needed
     - vector
@@ -38,34 +38,43 @@
     - cstdlib - for EXIT_FAILURE
 
 ### Compile script
-    - Will need to compile `frequency.cpp`
+    - Will need to compile `main.cpp`
+    - Will make an executable called *frequencies*
 
-    *****************************
+********************************
 
 ## Milestone 2
 ### Problems to solve
-    - Make a string with the names of the language files
+    - Make a string with the names of the language files.
     - Read from a file by reference, while reading count each trigram in the text and store in a frequency vector.
     - Compare frequency vector of the unknown language file to the frequency vectors of the other language files, by implementing the cosine similarity equation.
     - Determine the language the unknown file is the most similar to.
 
 ### How to solve the problems
-    - Make a string of size argc-2 with all of the language files to compare to, start with index 1.
+    - Create a string with all of the training language files.
     - Create a function that takes an ifstream. Converts each trigram that appears in the text file into a number and counts how many times each number appears, by creating a vector and making the number represent an index in the vector.
-    - Create a function that takes in the frequency vector of the unknown file and a frequency vector of another language file, and returns a double value between 0 and 1.
-    Store all of the cosine similarity values in a vector, in the same order as the language string.
+    - Create a function that takes in the frequency vector of the unknown test file and a frequency vector of another language file, calculates the cosine similarity and returns a double value between 0 and 1.
+    In main, store all of the cosine similarity values in a vector, in the same order as the language string.
     - After comparison of language files to the unknown file, the value closest to 0 would be the most similar language to the unknown file.
 
 ### Classes needed:
     - None
 
 ### Other functions:
-    - `freqVec()`
-    - `similarity()`
+    - `freqVec()` reads the text from a file and converts each trigram that appears into a number and counts how many times each one appears, by creating a vector and making the number represent an index in the vector.
+        - takes an ifstream of one language file.
+        - returns a vector of integers, frequency of each trigram in the string
+    - `similarity()` that calculates the similarity of two frequency vectors using the cosine similarity equation
+        - takes two vectors as arguments.
+        - returns a double, a value that represents the similarity of the two vectors
     - `main()`
+        - test if command arguments are more than 2, if not throw an error.
+        - creates a string with all of the training language files.
+        - calls `freqVec()` on every file (both training files and the test file)
+        - calls `similarity()` in a loop for each of the training file and compare it to the test file and stores it in a vector of doubles
+        - determines the index of the smallest value of the similarity vector and outputs the element with the corresponding index in the training languages string.
 
 ### Files needed
-    (- `language.h` and `language.cpp` for language Class.)
     - `main.cpp` to test the language detection.
 
 ### Libraries needed
@@ -77,7 +86,8 @@
     - cstdlib - for EXIT_FAILURE
 
 ### Compile script
-    - Will need to compile language.cpp and main.cpp
+    - Will need to compile `main.cpp`
+    - Will make an executable called *language*
 
 
      **************************************
@@ -128,6 +138,9 @@
     - Generate trigram frequencies of all arguments given. **calls method y**
     - The frequency vector for the last argument (unknown Language file) is compared to the frequency vector of all of the other languages (using cosine similarity) **calling? types**
     - Output name of most similar language (smallest cosine similarity value).
+
+frequency class to represent the frequency vector??
+
 
 ## Files needed
     - `language.h` and `language.cpp` for language Class.
