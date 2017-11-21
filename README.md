@@ -1,81 +1,83 @@
-## Final Project
-## Authors: Eydis Embla Ludviksdottir, Rotman Daniel Leiva
-## Emails:  eydisembla@my.uri.edu,     rdleiva@my.uri.edu
+# Design Document for Final Project
+### Authors: Eydis Embla Ludviksdottir, Rotman Daniel Leiva
+### Emails:  eydisembla@my.uri.edu,     rdleiva@my.uri.edu
 
-## Design Outline
 
 ## Milestone 1
-## Problems to solve
-    -   Test how many command arguments there are
-    -   Count how many times each trigram appears in a string from the command line and stores it in a vector
-    -   Output the frequency vector in the correct order, from `   ` to `zzz`, separated by space.
+### Problems to solve
+    - Test how many command arguments there are
+    - Count how many times each trigram appears in a string from the command line and stores it in a vector
+    - Output the frequency vector in the correct order, from `   ` to `zzz`, separated by space.
 
-## How to solve the problems
-    -   Store command line argument in a string, if there is less than, or more than one argument, EXIT_FAILURE.
-    -   Create a function that takes a string, loops through it and converts each trigram into a number with base 27, which will be the index that represents the trigram in the frequency vector.
-    -   Output each element in the vector through a for loop and place a space between each
+### How to solve the problems
+    - Store command line argument in a string, if there is less than, or more than one argument, EXIT_FAILURE.
+    - Create a function that takes a string, loops through it and converts each trigram into a number with base 27, which will be the index that represents the trigram in the frequency vector.
+    - Output each element in the vector through a for loop and place a space between each
 
-## Classes needed:
-    -   None
+### Classes needed:
+    - None
 
-## Other functions:
-    -   `freqVec()` converts each trigram that appears in a string into a number and counts how many times each number appears, by creating a vector and making the number represent an index in the vector.
-        -   takes a string as an argument
-        -   returns a vector of integers, frequency of each trigram in the string
-    -   `main()`
-        -   takes the command line as an argument, argv, and its size, argc.
-        -   tests if the command line is only one argument, else throws an error.
-        -   calls the freqVec, and passes the string to it, and stores in a vector.
-        -   output each element in the vector through a for loop and place a space between each.
+### Other functions:
+    - `freqVec()` converts each trigram that appears in a string into a number and counts how many times each number appears, by creating a vector and making the number represent an index in the vector.
+        - takes a string as an argument, **by a reference**.
+        - returns a vector of integers, frequency of each trigram in the string
+    - `main()`
+        - takes the command line as an argument, argv, and its size, argc.
+        - tests if the command line is only one argument, else throws an error.
+        - calls the freqVec **and passes a pointer to the string or just the string?**.
+        - output each element in the vector through a for loop and place a space between each.
 
-## Files needed
-    -   `frequencies.cpp` to calculate the frequency vector
+### Files needed
+    - `frequencies.cpp` to calculate the frequency vector
 
-## Libraries needed
-    -   vector
-    -   string
-    -   **iostream??**
-    -   cmath - for powers
-    -   cstdlib - for EXIT_FAILURE
+### Libraries needed
+    - vector
+    - string
+    - **iostream??**
+    - cmath - for powers
+    - cstdlib - for EXIT_FAILURE
 
-## Compile script
-    -   Will need to compile `frequency.cpp`
+### Compile script
+    - Will need to compile `frequency.cpp`
 
     *****************************
 
 ## Milestone 2
-## Problems to solve
-    1. Make a string with the names of the language files (main)
-    2. Read from a file and count each trigram in the text and store in a frequency vector.
-    3. Compare frequency vector of the unknown language file to the frequency vectors of the other language files.
-    4. Determine the language the unknown file is the most similar to.
+### Problems to solve
+    - Make a string with the names of the language files
+    - Read from a file by reference, while reading count each trigram in the text and store in a frequency vector.
+    - Compare frequency vector of the unknown language file to the frequency vectors of the other language files, by implementing the cosine similarity equation.
+    - Determine the language the unknown file is the most similar to.
 
-## How to solve the problems
-    1. Make a string of size argc - 1 with all of the language files, start with index 1 because the argv[0] is not a language file
-    2. Create a function that takes an ifstream (infile). We open it, loop through the text and convert each trigram into a number with base 27 which will be the index of a vector of size 27^3.
-    3. Implement cosine similarity equation in a function that takes in the frequency vector of the unknown file and a frequency vector of another language file, and returns a double value between 0 and 1. Make a vector of all of the cosine similarity values for corresponding languages (in the same order as the ).
-    4. After comparison of language files to the unknown file, the value closest to 0 would be the most similar language to the unknown file.
+### How to solve the problems
+    - Make a string of size argc-2 with all of the language files to compare to, start with index 1.
+    - Create a function that takes an ifstream. Converts each trigram that appears in the text file into a number and counts how many times each number appears, by creating a vector and making the number represent an index in the vector.
+    - Create a function that takes in the frequency vector of the unknown file and a frequency vector of another language file, and returns a double value between 0 and 1.
+    Store all of the cosine similarity values in a vector, in the same order as the language string.
+    - After comparison of language files to the unknown file, the value closest to 0 would be the most similar language to the unknown file.
 
-## Classes needed:
+### Classes needed:
+    - None
 
-
-## Other functions:
+### Other functions:
+    - `freqVec()`
+    - `similarity()`
     - `main()`
 
-## Files needed
-    - `language.h` and `language.cpp` for language Class.
+### Files needed
+    (- `language.h` and `language.cpp` for language Class.)
     - `main.cpp` to test the language detection.
 
-## Libraries needed
+### Libraries needed
     - vector
     - string
-    - iostream (and fstream)
+    - iostream
+    - fstream
     - cmath - for cosine
     - cstdlib - for EXIT_FAILURE
 
-## Compile script
+### Compile script
     - Will need to compile language.cpp and main.cpp
-    - flag?
 
 
      **************************************
