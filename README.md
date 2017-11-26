@@ -26,6 +26,9 @@
         - tests if the command line is only one argument, if not throws an error.
         - calls `freqVec()` and passes the string from the command line to it.
         - output each element in the vector through a for loop and place a space between each element.
+    - `error()`
+        - takes a string as an argument (message describing the error).
+        - outputs the error message and exits.
 
 ### Files needed
     - `main.cpp` to calculate the frequency vector
@@ -72,7 +75,7 @@
         - creates a vector of strings with all of the names of the training language files.
         - calls `freqVec()` on every file (both training files and the test file)
         - calls `similarity()` in a loop for each of the training file and compare it to the test file and stores it in a vector of doubles
-        - determines the index of the smallest value of the similarity vector and outputs the element with the corresponding index in the training languages  vector.
+        - determines the index of the smallest value of the similarity vector and outputs the element with the corresponding index in the training languages vector.
 
 ### Files needed
     - `main.cpp`
