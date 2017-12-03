@@ -18,6 +18,8 @@ std::vector<int> freqVec(std::ifstream &infile);
 void error(std::string msg);
 double similarity(std::vector<int> vec1, std::vector<int> vec2);
 
+const int VEC_LENGTH = pow(27,3);
+
 int main(int argc, char *argv[]){
     int size = argc;
     if (size < 2) error("Must provide more at least 2 files!");
@@ -37,6 +39,29 @@ int main(int argc, char *argv[]){
     return 0;
 }//end of main
 
+int getIndex (std::string str){
+    for (int i = 0; i < 3; i++){
+        int index = 0;
+        /*
+        check if an element in the string is a space,
+        if so set equal to 96 to reset the value of space.
+        */
+        if ((str[i] - 96) < 0) str[i] = 96;
+        if ((str[i+1] - 95) < 0) str[i+1] = 96;
+        if ((str[i+2] - 94) < 0) str[i+2] = 96;
+        /*
+        Since we are only using the lower case alphabet we reset the decimal values for each letter,
+        so it starts at one and increments with each letter.
+        Before, space is set equal to 96 which makes space equal to zero after we reset everything.
+        After converting the trigram to a number, one is added to the vector with the corresponding index.
+        */
+        index = (str[i] - 96) * pow(27, 2) + (str[i+1] - 96) * 27 + (str[i+2] - 96);
+    }//end of for loop
+
+    return index;
+}
+
+
 /*
 Converts each trigram that appears in a string into a number index and counts how many times each number appears.
 Creates a frequency vector vec, and makes the number represent an index in the vector.
@@ -49,28 +74,13 @@ std::vector<int> freqVec(std::ifstream &infile){
     initialize a zero vector of size 27^3.
     */
 
-    std::vector<int> vec(pow(27,3), 0);
+    std::vector<int> vec(VEC_LENGTH, 0);
     if (!infile.fail()){
         while (infile.get(ch)){
 
-            for (int i = 0; i < length - 2; i++){
-                int index = 0;
-                /*
-                check if an element in the string is a space,
-                if so set equal to 96 to reset the value of space.
-                */
-                if ((str[i] - 96) < 0) str[i] = 96;
-                if ((str[i+1] - 95) < 0) str[i+1] = 96;
-                if ((str[i+2] - 94) < 0) str[i+2] = 96;
-                /*
-                Since we are only using the lower case alphabet we reset the decimal values for each letter,
-                so it starts at one and increments with each letter.
-                Before, space is set equal to 96 which makes space equal to zero after we reset everything.
-                After converting the trigram to a number, one is added to the vector with the corresponding index.
-                */
-                index = (str[i] - 96) * pow(27, 2) + (str[i+1] - 96) * 27 + (str[i+2] - 96);
-                vec[index] += 1;
-            } //end of for loop
+
+            vec[index] += 1;
+
         } //end of while loop
         infile.close();
     } else {
