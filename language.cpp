@@ -18,6 +18,7 @@ Function Prototypes
 std::vector<int> freqVec(std::ifstream &infile);
 void error(std::string msg);
 double similarity(std::vector<int> vec1, std::vector<int> vec2);
+int getIndex (std::string str);
 
 const int VEC_LENGTH = pow(27,3);
 
@@ -26,16 +27,16 @@ int main(int argc, char *argv[]){
     int size = argc;
     if (size < 2) error("Must provide at least 2 files!");
 
-    std::string testFile = argv[size-1];
+    char* testFile = argv[size-1];
 
-    std::vector<std::string> langNames;
+    std::vector<char*> langNames;
 
     /*
     looping through the command line arguments except the first and the last one
     and pushing it to the vector langNames
     */
     for(int i = 1; i < size-1; i++){
-        std::string str = argv[i];
+        char* str = argv[i];
         langNames.push_back(str);
     }
 
@@ -49,22 +50,28 @@ int main(int argc, char *argv[]){
     //std::cout << langNames[0] << std::endl;
 
     std::vector<double> similarityVec;
-    std::vector<int> v1 = freqVec(&testFile);
+    std::ifstream f;
+    f.open(testFile);
+    std::vector<int> v1 = freqVec(f);
+    f.close();
+
     for(int i = 0; i < size - 1; i++){
-        //ifstream f(langNames[i]);
-        std::vector<int> v2 = freqVec(&f);
+        std::ifstream fi;
+        fi.open(langNames[i]);
+        std::vector<int> v2 = freqVec(fi);
         similarityVec.push_back(similarity(v1, v2));
+        fi.close();
     }
 
     /*
-    looping through the similarityVec to find the smallest value
+    looping through the similarityVec to find the greatest value
     */
-    int mic = 0;
+    int m = 0;
     for(int i = 1; i < 2 ; i++){
-        if(similarityVec[i]<mic)
-        mic = i;
+        if(similarityVec[i]>m)
+        m = i;
     }
-    std::cout<< langNames[mic] << std::endl;;
+    std::cout<< langNames[m] << std::endl;;
 
     //}//end of for loop
     return 0;
