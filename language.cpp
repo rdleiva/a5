@@ -9,34 +9,64 @@ File: language.cpp converts a string into a sparse frequency vector and outputs 
 #include <vector>
 #include <string>
 #include <cmath>
-
+#include <fstream>
 
 /*
 Function Prototypes
 */
+
 std::vector<int> freqVec(std::ifstream &infile);
 void error(std::string msg);
 double similarity(std::vector<int> vec1, std::vector<int> vec2);
 
 const int VEC_LENGTH = pow(27,3);
 
-//FIGURE OUT READING FROM THE COMMAND LINE, IT'S NOT IN QUOTES SO IT'S LIKE A LINKED LIST
+
 int main(int argc, char *argv[]){
     int size = argc;
-    if (size < 2) error("Must provide more at least 2 files!");
+    if (size < 2) error("Must provide at least 2 files!");
 
-    for (int i = 1; i < size-2; i++){
-        std::vector<std::string> languageNames[i-1] = argv[i];
+    std::string testFile = argv[size-1];
+
+    std::vector<std::string> langNames;
+
+    /*
+    looping through the command line arguments except the first and the last one
+    and pushing it to the vector langNames
+    */
+    for(int i = 1; i < size-1; i++){
+        std::string str = argv[i];
+        langNames.push_back(str);
     }
 
-    std::vector<double> similarityVec(size-2);
-    for (int i = 0; i < size-2; i++){
-        /*call similarity() for each of the training file and
-        compare it to the test file and stores it in a vector of doubles
+    /*
+    ifstream f(argv[i]);
+    vector = getfreq(&f);
+    */
 
-        Can I pass two different freqVec functions to the similarity function?
-        */
-    }//end of for loop
+    //std::cout << argv[1] << std::endl;
+    //std::cout << testFile << std::endl;
+    //std::cout << langNames[0] << std::endl;
+
+    std::vector<double> similarityVec;
+    std::vector<int> v1 = freqVec(&testFile);
+    for(int i = 0; i < size - 1; i++){
+        //ifstream f(langNames[i]);
+        std::vector<int> v2 = freqVec(&f);
+        similarityVec.push_back(similarity(v1, v2));
+    }
+
+    /*
+    looping through the similarityVec to find the smallest value
+    */
+    int mic = 0;
+    for(int i = 1; i < 2 ; i++){
+        if(similarityVec[i]<mic)
+        mic = i;
+    }
+    std::cout<< langNames[mic] << std::endl;;
+
+    //}//end of for loop
     return 0;
 }//end of main
 
@@ -47,15 +77,17 @@ Creates a frequency vector vec, and makes the number represent an index in the v
 
 returns the frequency vector.
 */
+
 std::vector<int> freqVec(std::ifstream &infile){
     /*
     initialize a zero vector of size 27^3.
     */
     std::vector<int> vec(VEC_LENGTH, 0);
     std::string str = "000";
+    char ch;
     if (!infile.fail()){
         while (infile.get(ch)){
-            if (ch == '\0') continue; //does continue make it skip that reding and go to the next loop of the while
+            if (ch == '\0') continue;
             else if (str[0] == '0') str[0] = ch;
             else if (str[1] == '0') str[1] = ch;
             else {
@@ -66,7 +98,7 @@ std::vector<int> freqVec(std::ifstream &infile){
                 str[1] = str[2];
             }
         } //end of while loop
-        infile.close();
+        //infile.close();
     } else {
         error("Could not open file");
     }
@@ -82,8 +114,8 @@ returns the index.
 */
 
 int getIndex (std::string str){
+    int index = 0;
     for (int i = 0; i < 3; i++){
-        int index = 0;
         /*
         check if an element in the string is a space,
         if so set equal to 96 to reset the value of space.
@@ -96,22 +128,36 @@ int getIndex (std::string str){
         so it starts at one and increments with each letter.
         Before, space is set equal to 96 which makes space equal to zero after we reset everything.
         */
-        index = (str[i] - 96) * pow(27, 2) + (str[i+1] - 96) * 27 + (str[i+2] - 96);
+        index += (str[i] - 96) * pow(27, 2) + (str[i+1] - 96) * 27 + (str[i+2] - 96);
     }//end of for loop
 
     return index;
 }
 
+/*
+Computes the cosine similarity of the two vectors passed to the function,
+does that by computing the numerator and each part of the denominator separately,
+and then combine the values together in the end as numerator over the product of each part of the denominator.
+
+returns the similarity value
+*/
+
 double similarity(std::vector<int> vec1, std::vector<int> vec2){
 
-    double nom = 0.0, denA = 0.0, denB = 0.0;
+    /*
+    looping through the frequency vector,
+    numerator: adds the products of the elements in the vectors with the same indexes.
+    denominator 1: adds the squared element in vec1.
+    denominator 2: adds the squared element in vec2.
+    */
+    double num = 0.0, den1 = 0.0, den2 = 0.0;
     for (int i = 0; i < VEC_LENGTH; i++){ //++i?
-        nom += vec1[i] * vec2[i];
-        denA += pow(vec1[i], 2);
-        denB += pow(vec2[i], 2);
+        num += vec1[i] * vec2[i];
+        den1 += pow(vec1[i], 2);
+        den2 += pow(vec2[i], 2);
     } //end of for loop
 
-    return nom / (sqrt(denA) * sqrt(denB));
+    return num / (sqrt(den1) * sqrt(den2));
 } //end of similarity
 
 /*
