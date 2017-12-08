@@ -20,7 +20,7 @@ void error(std::string msg);
 double similarity(std::vector<int> vec1, std::vector<int> vec2);
 int getIndex (std::string str);
 
-const int VEC_LENGTH = pow(27,3);
+const int VEC_LENGTH = 27 * 27 * 27;
 
 
 int main(int argc, char *argv[]){
@@ -52,12 +52,14 @@ int main(int argc, char *argv[]){
     std::vector<double> similarityVec;
     std::ifstream f;
     f.open(testFile);
+    //std::cout << testFile << std::endl;
     std::vector<int> v1 = freqVec(f);
     f.close();
 
-    for(int i = 0; i < size - 1; i++){
+    for(size_t i = 0; i < langNames.size(); i++){
         std::ifstream fi;
         fi.open(langNames[i]);
+        //std::cout << langNames[i] << std::endl;
         std::vector<int> v2 = freqVec(fi);
         similarityVec.push_back(similarity(v1, v2));
         fi.close();
@@ -66,8 +68,8 @@ int main(int argc, char *argv[]){
     /*
     looping through the similarityVec to find the greatest value
     */
-    int m = 0;
-    for(int i = 1; i < 2 ; i++){
+    int m = 2;
+    for(size_t i = 1; i < similarityVec.size() ; i++){
         if(similarityVec[i]>m)
         m = i;
     }
@@ -99,13 +101,14 @@ std::vector<int> freqVec(std::ifstream &infile){
             else if (str[1] == '0') str[1] = ch;
             else {
                 str[2] = ch;
+                //std::cout << str << std::endl;
                 int index = getIndex(str);
+                //std::cout << index << std::endl;
                 vec[index] += 1;
                 str[0] = str[1];
                 str[1] = str[2];
             }
         } //end of while loop
-        //infile.close();
     } else {
         error("Could not open file");
     }
@@ -122,21 +125,19 @@ returns the index.
 
 int getIndex (std::string str){
     int index = 0;
-    for (int i = 0; i < 3; i++){
-        /*
-        check if an element in the string is a space,
-        if so set equal to 96 to reset the value of space.
-        */
-        if ((str[i] - 96) < 0) str[i] = 96;
-        if ((str[i+1] - 95) < 0) str[i+1] = 96;
-        if ((str[i+2] - 94) < 0) str[i+2] = 96;
-        /*
-        Since we are only using the lower case alphabet we reset the decimal values for each letter,
-        so it starts at one and increments with each letter.
-        Before, space is set equal to 96 which makes space equal to zero after we reset everything.
-        */
-        index += (str[i] - 96) * pow(27, 2) + (str[i+1] - 96) * 27 + (str[i+2] - 96);
-    }//end of for loop
+    /*
+    check if an element in the string is a space,
+    if so set equal to 96 to reset the value of space.
+    */
+    if ((str[0] - 96) < 0) str[0] = 96;
+    if ((str[1] - 95) < 0) str[1] = 96;
+    if ((str[2] - 94) < 0) str[2] = 96;
+    /*
+    Since we are only using the lower case alphabet we reset the decimal values for each letter,
+    so it starts at one and increments with each letter.
+    Before, space is set equal to 96 which makes space equal to zero after we reset everything.
+    */
+    index = (str[0] - 96) * pow(27, 2) + (str[1] - 96) * 27 + (str[2] - 96);
 
     return index;
 }
@@ -147,6 +148,10 @@ does that by computing the numerator and each part of the denominator separately
 and then combine the values together in the end as numerator over the product of each part of the denominator.
 
 returns the similarity value
+*/
+
+/*
+use unsigned long long as long as you can!!
 */
 
 double similarity(std::vector<int> vec1, std::vector<int> vec2){

@@ -17,4 +17,4 @@ rm -f *.o
 
 # compile
 
-$CPP $FLAGS -o frequencies milestone1.cpp
+$CPP $FLAGS -o language language.cpp
