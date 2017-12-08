@@ -66,7 +66,9 @@ int main(int argc, char *argv[]){
     }
 
     /*
-    looping through the similarityVec to find the greatest value
+    looping through the similarityVec to find the greatest value ??
+    Need to find another way to find the most similar value..
+    find the one closes to 1.
     */
     int m = 2;
     for(size_t i = 1; i < similarityVec.size() ; i++){
@@ -150,10 +152,6 @@ and then combine the values together in the end as numerator over the product of
 returns the similarity value
 */
 
-/*
-use unsigned long long as long as you can!!
-*/
-
 double similarity(std::vector<int> vec1, std::vector<int> vec2){
 
     /*
@@ -162,7 +160,7 @@ double similarity(std::vector<int> vec1, std::vector<int> vec2){
     denominator 1: adds the squared element in vec1.
     denominator 2: adds the squared element in vec2.
     */
-    double num = 0.0, den1 = 0.0, den2 = 0.0;
+    unsigned long long num = 0.0, den1 = 0.0, den2 = 0.0;
     for (int i = 0; i < VEC_LENGTH; i++){ //++i?
         num += vec1[i] * vec2[i];
         den1 += pow(vec1[i], 2);
