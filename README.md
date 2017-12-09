@@ -67,6 +67,9 @@
     - `freqVec()` reads the text from a file and converts each trigram that appears into a number and counts how many times each number appears, by creating a vector and making the number represent an index in the vector.
         - takes an ifstream of one language file.
         - returns a vector of integers, frequency of each trigram in the string.
+    - `getIndex()` ....
+        - takes a string as an argument
+        - returns an index of the trigram vector
     - `similarity()` calculates the similarity of two frequency vectors using the cosine similarity equation
         - takes two vectors as arguments.
         - returns a double, a value that represents the similarity of the two vectors
