@@ -77,7 +77,7 @@ int main(int argc, char *argv[]){
     /*
     outputting the file name with the index that represented the greatest value in the similarity vector.
     */
-    std::cout<< langNames[n] << std::endl;;
+    std::cout<< langNames[n] << std::endl;
 
     return 0;
 } //end of main

@@ -10,7 +10,7 @@ set -e    # halt on first error
 CPP=clang++
 
 # be aggressive about warnings and errors
-FLAGS="-g -O -Wall -Wextra -Werror -Wfatal-errors -std=c++11 -pedantic"
+FLAGS="-g -Wall -Wextra -Werror -Wfatal-errors -std=c++11 -pedantic"
 
 # clear out old object files
 rm -f *.o
